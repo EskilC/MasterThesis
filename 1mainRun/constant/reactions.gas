@@ -1,0 +1,49 @@
+/*--------------------------------*- C++ -*----------------------------------*\
+  =========                 |
+  \\      /  F ield         | OpenFOAM: The Open Source CFD Toolbox
+   \\    /   O peration     | Website:  https://openfoam.org
+    \\  /    A nd           | Version:  8
+     \\/     M anipulation  |
+-------------------------------------------------------------------------------
+References:
+    Akhtar, M. K., Xiong, Y., & Pratsinis, S. E. (1991).
+    gas synthesis of titania powder by titanium tetrachloride oxidation.
+    AIChE Journal, 37(10), 1561-1570.
+
+    Spicer, P. T., Chaoul, O., Tsantilis, S., Pratsinis, S. E. (2002).
+    Titania formation by TiCl4 gas phase oxidation, surface growth
+    and coagulation. Journal of Aerosol Science, 33(1), 17-34.
+
+\*---------------------------------------------------------------------------*/
+FoamFile
+{
+    version     2.0;
+    format      ascii;
+    class       dictionary;
+    location    "constant";
+    object      reactions.gas;
+}
+// * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
+
+reactions
+{
+	oxidationAtSurface
+    {
+        type        irreversibleAdsorptionArrhenius;
+		//type		irreversibleSurfaceArrhenius;
+
+        reaction    "HF = HF_s^0";
+
+        A           8e10; //converted from cm/s->m/s
+        beta        0.0;
+        Ta          1e4;
+		
+        a           a.particles;
+		adsMax		3.1;				//- mg HF/kg Al2O3
+		adso		HF_s.particles;
+		adsorbent	Al2O3.particles;
+    }
+}
+
+
+// ************************************************************************* //
