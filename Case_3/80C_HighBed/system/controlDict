@@ -1,0 +1,82 @@
+/*--------------------------------*- C++ -*----------------------------------*\
+  =========                 |
+  \\      /  F ield         | OpenFOAM: The Open Source CFD Toolbox
+   \\    /   O peration     | Website:  https://openfoam.org
+    \\  /    A nd           | Version:  8
+     \\/     M anipulation  |
+\*---------------------------------------------------------------------------*/
+FoamFile
+{
+    version     2.0;
+    format      ascii;
+    class       dictionary;
+    location    "system";
+    object      controlDict;
+}
+// * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
+
+application     multiphaseEulerFoam;
+
+startFrom       latestTime;
+
+startTime       0;
+
+stopAt          endTime;
+
+endTime         100;
+
+deltaT          2e-5;
+
+writeControl    runTime;
+
+writeInterval   0.1;
+
+purgeWrite      0;
+
+writeFormat     ascii;
+
+writePrecision  6;
+
+writeCompression yes;
+
+timeFormat      general;
+
+timePrecision   6;
+
+runTimeModifiable on;
+
+adjustTimeStep  yes;
+
+maxCo           0.7;
+
+maxDeltaT       5e-01;
+
+functions
+{
+	OutletValue
+	{
+		type surfaceFieldValue;
+		functionObjectLibs ("libfieldFunctionObjects.so");
+		writeControl		writeTime;
+		fields
+		(
+			HF.gas
+			HF_s.gas
+			alpha.gas
+			Ar.gas
+			p
+		);
+		operation 		average;
+		regionType		patch;
+		name			outlet;
+		writeFields		false;
+		writeInterval	1;					// just added
+	}
+}
+libs
+( 
+	"libmyAdsorptionArrheniusReactions.so"
+	"libmyReactionDriven.so"
+);
+
+// ************************************************************************* //
